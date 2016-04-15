@@ -13,13 +13,20 @@ gun_crime <- gun_crime[-(nrow(gun_crime)),]
 # As such, for this example, I deleted a few variables
 # that had non-linear tendencies with a lot of missing data.
 
-drops <- c("gunsamm","amhms","domestic_gun_production")
+drops <- c("gunsamm","amhms","amrmms","domestic_gun_production")
 data <- gun_crime[, !(names(gun_crime) %in% drops)]
 
 # However, I noticed that the gun variable (% of households
-# owning a gun) is a linear trend, so I extrapolated for it:
+# owning a gun) is a linear trend, so I extrapolated for it.
+# Also did the same for gallup poll of people 
+# owning guns:
 
-
+data$gun[1] <- 34.5
+data$gun <- na.approx(data$gun)
+data$gallup_owngun <- na.approx(data$gallup_owngun)
+apply(data,2,function(x) sum(is.na(x)))
 # Use an apply function to test for NA data
-apply(rape_data,2,function(x) sum(is.na(x)))
+
+
+
 
