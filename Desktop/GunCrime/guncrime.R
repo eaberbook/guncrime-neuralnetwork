@@ -28,5 +28,8 @@ apply(data,2,function(x) sum(is.na(x)))
 # Use an apply function to test for NA data
 
 
+I just commited this.
+
+
 
 
