@@ -10,10 +10,12 @@ gun_crime = read.csv(text = crime_website)
 gun_crime <- gun_crime[-(nrow(gun_crime)),]
 
 # Neural networks do not accept null values as input.
+
 # As such, for this example, I deleted a few variables
 # that had non-linear tendencies with a lot of missing data.
+# I could not find verifiable online sources to replace this data
 
-drops <- c("gunsamm","amhms","amrmms","domestic_gun_production")
+drops <- c("gunsamm","amhms","amrmms","domestic_gun_production","hg")
 data <- gun_crime[, !(names(gun_crime) %in% drops)]
 
 # However, I noticed that the gun variable (% of households
@@ -24,8 +26,22 @@ data <- gun_crime[, !(names(gun_crime) %in% drops)]
 data$gun[1] <- 34.5
 data$gun <- na.approx(data$gun)
 data$gallup_owngun <- na.approx(data$gallup_owngun)
-apply(data,2,function(x) sum(is.na(x)))
+
 # Use an apply function to test for NA data
+
+apply(data,2,function(x) sum(is.na(x)))
+
+# Now we can get into neural network analysis.
+# Main goal : Predict the rape variable.
+
+set.seed(123)
+
+# Let's take the years 1980 - 1996 as test, and 1997 - 2013 as
+# train
+first_half <- seq(1:15)
+train <- data[-first_half,]
+test <- data[first_half,]
+
 
 
 
