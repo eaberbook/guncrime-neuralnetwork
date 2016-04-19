@@ -2,6 +2,7 @@ library(RCurl)
 library(MASS)
 library(corrplot)
 library(stats)
+library(zoo)
 
 crime_website <-getURL("https://raw.githubusercontent.com/eaberbook/gunsandcrime/master/gun_crime_data.csv")
 gun_crime = read.csv(text = crime_website)
@@ -42,10 +43,10 @@ set.seed(123)
 # train
 
 
-index <- sample(1:nrow(data),round(0.75*nrow(data)))
-train <- data[index,]
-test <- data[-index,]
-lm.fit <- glm(rape~., data=train)
+#index <- sample(1:nrow(data),round(0.75*nrow(data)))
+#train <- data[index,]
+#test <- data[-index,]
+#lm.fit <- glm(rape~., data=train)
 
 # DIMENSION REDUCTION
 
@@ -58,8 +59,13 @@ Lag_amt = 1;
 neural_net_pred <- array(0,dim=c(nrow(data),ncol(data)))
 # random_forest_pred <- array(0,dim=c(nrow(data),ncol(data)))
 
+# Run PCA on the data first 
 
-
+set.seed(123)
+pca_data <- run_PCA(data,ncol(data))
+split <- sample(1:nrow(pca_data),round(nrow(data)/2))
+train <- pca_data[split,]
+test <- pca_data[-split,]
 
 
 
