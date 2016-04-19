@@ -1,5 +1,7 @@
 library(RCurl)
 library(MASS)
+library(corrplot)
+library(stats)
 
 crime_website <-getURL("https://raw.githubusercontent.com/eaberbook/gunsandcrime/master/gun_crime_data.csv")
 gun_crime = read.csv(text = crime_website)
@@ -38,13 +40,18 @@ set.seed(123)
 
 # Let's take the years 1980 - 1996 as test, and 1997 - 2013 as
 # train
-first_half <- seq(1:15)
-train <- data[-first_half,]
-test <- data[first_half,]
 
 
+index <- sample(1:nrow(data),round(0.75*nrow(data)))
+train <- data[index,]
+test <- data[-index,]
+lm.fit <- glm(rape~., data=train)
 
+# We have a large amount of variables, so
+# let us reduce dimensionality with PCA
 
+#### PCA #####
+year_lag = 10;
 
 
 
