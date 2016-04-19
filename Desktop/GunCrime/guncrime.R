@@ -47,12 +47,34 @@ train <- data[index,]
 test <- data[-index,]
 lm.fit <- glm(rape~., data=train)
 
+# DIMENSION REDUCTION
+
 # We have a large amount of variables, so
 # let us reduce dimensionality with PCA
 
 #### PCA #####
 year_lag = 10;
+Lag_amt = 1;
+neural_net_pred <- array(0,dim=c(nrow(data),ncol(data)))
+# random_forest_pred <- array(0,dim=c(nrow(data),ncol(data)))
 
 
 
+
+
+
+
+run_PCA = function(X_train, nrFactors){
+  
+  myPCA = prcomp(X_train, center = TRUE, scale. = TRUE, retx = TRUE);
+  pcaRot = myPCA$rotation
+  EIGS_PCA = myPCA$x
+  
+  q = myPCA$sdev
+  
+  FACTORS = EIGS_PCA[, 1:nrFactors];
+  
+  
+  return(FACTORS);
+}
 
